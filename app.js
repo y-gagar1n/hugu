@@ -19,7 +19,7 @@ app.set('port_http', 80);
 app.set('port_websocket', 3001);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-app.set('client_id', '3668304')
+app.set('client_id', '4237930')
 
 app.use(express.favicon());
 app.use(express.logger());
