@@ -467,6 +467,7 @@ function makeSearchList(tracks){
 
 		var track_link = $('<a />', {
 			html: track.title,
+			href: '#',
 			id: 'trackSearch_' + key,
 			'class': 'track-search',
 		});
