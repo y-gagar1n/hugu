@@ -1,4 +1,5 @@
 var Track = require('./track');
+var Store = require('./store');
 var Player = require('./player');
 var Volumer = require('./volumer');
 var EventEmitter = require('events').EventEmitter;
@@ -12,6 +13,7 @@ function Manager(){
 	var player = new Player();
 	var volumer = new Volumer();
 	var emitter = new EventEmitter();
+	var store = new Store();
 	var stopwatch = null;
 
 	var optionPlayNext = true;
@@ -68,6 +70,17 @@ function Manager(){
 		return (currentTrack) ? currentTrack.getData() : null;
 	}
 
+	var likeTrack = function(user_id){
+		if(currentTrack){
+			store.add_like(user_id, currentTrack, function() {
+				store.get_likes(currentTrack, function(likes) {
+					if(likes)
+						emit('like', likes);	
+				});
+			});
+		}
+	}
+
 	var setCurrentTrack = function(track){
 		currentTrack = track;		
 		emit('currentTrack', currentTrack);
@@ -75,6 +88,7 @@ function Manager(){
 
 	var addTrackToPlaylist = function(track){
 		var length = playlist.push(track);
+		store.add_track(track);		
 
 		checkPlayerAndPlayNext();
 
@@ -167,6 +181,7 @@ function Manager(){
 		setVolume: setVolume,
 		getCurrentTrack: getCurrentTrack,
 		addTrackToPlaylist: addTrackToPlaylist,
+		likeTrack: likeTrack,
 		getPlaylist: getPlaylist,
 		playNext: playNext,
 		play: play,

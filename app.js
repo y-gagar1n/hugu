@@ -5,7 +5,8 @@ var express = require('express'),
     md5 = require('MD5'),
     Client = require('./application/client'),
     Pool = require('./application/pool'),
-    Manager = require('./application/manager');
+    Manager = require('./application/manager'),
+    Store = require('./application/store');
 
 
 var app = express();
@@ -68,6 +69,11 @@ manager.on('updatePlaylist', function(){
 manager.on('currentTrack', function(){
     pool.emitSocket('currentTrack', manager.getCurrentTrack());
 });
+
+manager.on('like', function(likes){
+    pool.emitSocket('like', likes);
+});
+
 
 manager.on('currentVolume', function(value){
     pool.emitSocket('currentVolume', value);

@@ -73,6 +73,34 @@ function sendToQueueTrackById(id){
 	sendToQueueTrack(track);
 }
 
+function renderLikes(likes){
+	//$('#likes').text(likes.length);
+	$('#likes').empty();
+
+	var user_ids = likes.map(function(like) { return like.author; });
+
+	getUserInfo(user_ids, function(result){
+		
+		for(var key in result.response){
+
+			var userVK = result.response[key];			
+			var img = $('<img />', {
+				src: userVK.photo_50,
+				height: '20px',
+				width: '20px',
+				title: userVK.last_name+ ' ' + userVK.first_name
+			});
+
+			var a = $('<a/>',{
+				html: img, 
+				href: 'http://vk.com/id' + userVK.uid
+			});
+
+			$('#likes').append(a);
+		}
+	});
+}
+
 function renderUsers(users){	
 	$('#users').empty();
 
@@ -150,6 +178,10 @@ function setHandlers() {
 	_socket.on('users', function(users) {
 		renderUsers(users);
 	});
+
+	_socket.on('like', function(likes) {
+		renderLikes(likes);
+	});
 	
 
 	_socket.on('currentTrack', function(track) {
@@ -161,7 +193,7 @@ function setHandlers() {
 				track.artist + ' - ' + 
 				track.title + ' - ' +
 				formatDuration(track.duration) + 
-				' <span id="countdown"></span>' +				
+				' <span id="countdown"></span> Likes:<span id="likes"></span>' +				
 				'</span>'
 				).attr({
 					'data-url': track.url,
@@ -197,6 +229,10 @@ function setHandlers() {
 	$('#btn-download').click(function() {
 		var url = $('#currentTrack').attr('data-url');		
 		window.open(url, '_blank');
+	});
+
+	$('#btn-like').click(function() { 
+		likeTrack();
 	});
 
 	$('#btn-skip').click(function() {
@@ -255,7 +291,7 @@ function renderPlaylistItem(track){
 	var artist = track.artist;
 
 	var title = $('<b />', {
-		'data-id': track.hgId, 
+'data-id': track.hgId, 
 		html: track.title
 	});
 
@@ -280,6 +316,11 @@ function search(query) {
 	});	
 
 	getDataFromVK(url, callbackSearch);
+}
+
+function likeTrack()
+{
+	_socket.emit("like_track", _userId);
 }
 
 
@@ -430,7 +471,7 @@ function makeSearchList(tracks){
 			'class': 'track-search',
 		});
 
-		var duration = formatDuration(track.duration);
+var duration = formatDuration(track.duration);
 
 		var track_item = $('<p/>')
 			.append(artist_link)

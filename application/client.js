@@ -93,6 +93,10 @@ function Client(object){
         socket.on('setVolume', function(value){
             manager.setVolume(value + '%');
         });
+
+        socket.on('like_track', function(userId) {
+            manager.likeTrack(userId);
+        });
     };
 
     var isAuthenticated = function(){
