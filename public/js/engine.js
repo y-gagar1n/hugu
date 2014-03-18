@@ -186,7 +186,7 @@ function setHandlers() {
 
 	_socket.on('currentTrack', function(track) {
 		$('.track-playing').remove();
-
+		
 		if (track) {			
 			$("#jplayer").jPlayer("setMedia", {
     	        mp3:track.url
@@ -194,8 +194,9 @@ function setHandlers() {
 
 	        $("#jplayer").jPlayer("play", track.playing_time);
 
-			$('#currentTrack').html(
-				'<span class="track-playing">' + 
+			$('#currentTrack').html(						
+				'<span class="track-playing">' + 				
+				'<img src="' + track.addByUserAvatar + '"style="height: 20px; width: 20px;">&nbsp;' + 	
 				track.artist + ' - ' + 
 				track.title + ' - ' +
 				formatDuration(track.duration) + 
