@@ -80,7 +80,7 @@ function renderLikes(likes){
 	var user_ids = likes.map(function(like) { return like.author; });
 
 	getUserInfo(user_ids, function(result){
-		
+		$('#likes').append("Likes:");
 		for(var key in result.response){
 
 			var userVK = result.response[key];			
@@ -199,7 +199,7 @@ function setHandlers() {
 				track.artist + ' - ' + 
 				track.title + ' - ' +
 				formatDuration(track.duration) + 
-				' <span id="countdown"></span> Likes:<span id="likes"></span>' +				
+				' <span id="countdown"></span><span id="likes"></span>' +				
 				'</span>'
 				).attr({
 					'data-url': track.url,
