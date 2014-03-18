@@ -188,6 +188,12 @@ function setHandlers() {
 		$('.track-playing').remove();
 
 		if (track) {			
+			$("#jplayer").jPlayer("setMedia", {
+    	        mp3:track.url
+	        });
+
+	        $("#jplayer").jPlayer("play",0);
+
 			$('#currentTrack').html(
 				'<span class="track-playing">' + 
 				track.artist + ' - ' + 
@@ -528,4 +534,11 @@ $(document).ready(function() {
 	}
 
 	startAuthIfTokenExists();
+
+	$("#jplayer").jPlayer({    
+        swfPath: "/components/jplayer/",
+        supplied: "mp3",
+        wmode: "window",
+        solution:"flash, html"
+    });  
 });
