@@ -192,7 +192,7 @@ function setHandlers() {
     	        mp3:track.url
 	        });
 
-	        $("#jplayer").jPlayer("play",0);
+	        $("#jplayer").jPlayer("play", track.playing_time);
 
 			$('#currentTrack').html(
 				'<span class="track-playing">' + 
@@ -205,6 +205,10 @@ function setHandlers() {
 					'data-url': track.url,
 					'data-aid': track.aid
 				});
+			}
+			else
+			{
+				$("#jplayer").jPlayer("stop",0);				
 			}
 
 			$("#countdown").everyTime(1000, function(i) {
@@ -539,6 +543,6 @@ $(document).ready(function() {
         swfPath: "/components/jplayer/",
         supplied: "mp3",
         wmode: "window",
-        solution:"flash, html"
+        solution:"html, flash"
     });  
 });
