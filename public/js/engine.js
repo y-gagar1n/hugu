@@ -79,7 +79,7 @@ function renderLikes(likes){
 		var user_ids = likes.map(function(like) { return like.author; });
 
 		getUserInfo(user_ids, function(result){		
-			if(result.response.length > 0)	$('#likes').empty().append("Likes:");
+			if(result.response.length > 0)	$('#likes').empty();
 			for(var key in result.response){
 
 				var userVK = result.response[key];			
@@ -203,14 +203,12 @@ function setHandlers() {
 				track.artist + ' - ' + 
 				track.title + ' - ' +
 				formatDuration(track.duration) + 
-				' <span id="countdown"></span><span id="likes"></span>' +				
+				' <span id="countdown"></span>' +				
 				'</span>'
 				).attr({
 					'data-url': track.url,
 					'data-aid': track.aid
-				});
-
-				renderLikes(track.likes);
+				});				
 			}
 			else
 			{

@@ -101,6 +101,10 @@ function Manager(){
 				}
 			});
 		}
+		else
+		{
+			emit('like', []);
+		}
 	}
 
 	var addTrackToPlaylist = function(track){
