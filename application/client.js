@@ -29,6 +29,9 @@ function Client(object){
 
         socket.emit('playlist', manager.getPlaylist());
         socket.emit('currentTrack', manager.getCurrentTrack());    
+        manager.getCurrentLikes(function(likes) { 
+            socket.emit('like', likes);
+        });
 
         setOnAuthHandler();
     };

@@ -70,12 +70,21 @@ function Manager(){
 		return (currentTrack) ? currentTrack.getData() : null;
 	}
 
+	var getCurrentLikes = function(callback) {
+		if(currentTrack) {
+			store.get_likes(currentTrack, function(likes) {
+				if(likes){
+					callback(likes);
+				}
+			});
+		}
+	}
+
 	var likeTrack = function(user_id){
 		if(currentTrack){
 			store.add_like(user_id, currentTrack, function() {
-				store.get_likes(currentTrack, function(likes) {
-					if(likes)
-						emit('like', likes);	
+				getCurrentLikes(function(likes) { 
+					emit('like', likes); 
 				});
 			});
 		}
@@ -84,6 +93,14 @@ function Manager(){
 	var setCurrentTrack = function(track){
 		currentTrack = track;		
 		emit('currentTrack', currentTrack);
+		if(currentTrack)
+		{
+			store.get_likes(currentTrack, function(likes) {
+				if(likes) {
+					emit('like', likes);	
+				}
+			});
+		}
 	}
 
 	var addTrackToPlaylist = function(track){
@@ -180,6 +197,7 @@ function Manager(){
 		getVolume: getVolume,
 		setVolume: setVolume,
 		getCurrentTrack: getCurrentTrack,
+		getCurrentLikes: getCurrentLikes,
 		addTrackToPlaylist: addTrackToPlaylist,
 		likeTrack: likeTrack,
 		getPlaylist: getPlaylist,

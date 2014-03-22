@@ -74,31 +74,34 @@ function sendToQueueTrackById(id){
 }
 
 function renderLikes(likes){
-	//$('#likes').text(likes.length);
-	$('#likes').empty();
+	if(likes.length > 0){
 
-	var user_ids = likes.map(function(like) { return like.author; });
+		var user_ids = likes.map(function(like) { return like.author; });
 
-	getUserInfo(user_ids, function(result){
-		$('#likes').append("Likes:");
-		for(var key in result.response){
+		getUserInfo(user_ids, function(result){		
+			if(result.response.length > 0)	$('#likes').empty().append("Likes:");
+			for(var key in result.response){
 
-			var userVK = result.response[key];			
-			var img = $('<img />', {
-				src: userVK.photo_50,
-				height: '20px',
-				width: '20px',
-				title: userVK.last_name+ ' ' + userVK.first_name
-			});
+				var userVK = result.response[key];			
+				var img = $('<img />', {
+					src: userVK.photo_50,
+					height: '20px',
+					width: '20px',
+					title: userVK.last_name+ ' ' + userVK.first_name
+				});
 
-			var a = $('<a/>',{
-				html: img, 
-				href: 'http://vk.com/id' + userVK.uid
-			});
-
-			$('#likes').append(a);
-		}
-	});
+				var a = $('<a/>',{
+					html: img, 
+					href: 'http://vk.com/id' + userVK.uid
+				});				
+				$('#likes').append(a);
+			}
+		});
+	}
+	else
+	{
+		$('#likes').empty();
+	}
 }
 
 function renderUsers(users){	
@@ -206,6 +209,8 @@ function setHandlers() {
 					'data-url': track.url,
 					'data-aid': track.aid
 				});
+
+				renderLikes(track.likes);
 			}
 			else
 			{
@@ -458,7 +463,7 @@ function formatDuration(duration_in_seconds){
 	var duration_string = '';
 	if(duration_in_seconds){
 		var duration = moment.duration(duration_in_seconds, "seconds");
-		duration_string = duration.minutes() + ':' + duration.seconds();	
+		duration_string = duration.minutes() + ':' + ("0" + duration.seconds()).slice(-2);	
 	}
 	return duration_string;
 }
