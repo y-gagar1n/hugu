@@ -165,6 +165,15 @@ function setHandlers() {
 		return false;
 	});
 
+	$('#load_my_playlist').click(function() {
+		getCurrentUserPlaylist(function(response) {
+			if(response.count > 0)
+			{
+				var tracks = response.items;
+			}
+		})
+	});
+
 	$('#moveall').on('click', function() {		
 		for(var key in _tracksFound){
 			var track = _tracksFound[key];
@@ -207,7 +216,8 @@ function setHandlers() {
 				'</span>'
 				).attr({
 					'data-url': track.url,
-					'data-aid': track.aid
+					'data-aid': track.aid,
+					'data-oid': track.owner_id
 				});				
 			}
 			else
@@ -253,6 +263,18 @@ function setHandlers() {
 		_socket.emit('skip');
 	});
 
+	$('#btn-mute').click(function() {
+		$("#jplayer").jPlayer("mute");
+		$("#btn-mute").hide();
+		$("#btn-unmute").show();
+	});
+
+	$('#btn-unmute').click(function() {
+		$("#jplayer").jPlayer("unmute");
+		$("#btn-unmute").hide();
+		$("#btn-mute").show();
+	});
+
 	$('#volumeSlider').slider({
 		range: 'min',		
 		min: 0,
@@ -267,12 +289,13 @@ function setHandlers() {
 
 function addAudioToVK(){
 	var audio_id = $('#currentTrack').attr('data-aid');
+	var owner_id = $('#currentTrack').attr('data-oid');
 
 	var url = prepareUrlString({
 		method: 'audio.add',
 		params: { 
 			audio_id: audio_id,
-			owner_id: _userId
+			owner_id: owner_id
 		},
 	});
 
@@ -388,6 +411,14 @@ function getAudio(user_id) {
 
 function showUserInfo(){
 	getUserInfo(_userId, callbackShowUserInfo);
+}
+
+function getCurrentUserPlaylist(callback){
+	var url = prepareUrlString({
+		method: 'audio.get'
+	});
+
+	getDataFromVK(url, callback);
 }
 
 
