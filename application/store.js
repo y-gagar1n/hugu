@@ -3,8 +3,7 @@ var sqlite3 = require('sqlite3').verbose();
 
 function Store(){
 	var db_path = path.join(__dirname, '/../store');
-	console.log(db_path);
-	var db = new sqlite3.Database('store');
+	var db = new sqlite3.Database('db_path');
 	var insert_track = db.prepare("INSERT INTO songs(artist, title, duration, url) VALUES (?, ?, ?, ?)");
 	var search_track = db.prepare("SELECT * FROM songs WHERE artist = ? and title = ?");
 	var add_vote = db.prepare("INSERT INTO votes(song_id, author, positive) VALUES(?, ?, ?)")
