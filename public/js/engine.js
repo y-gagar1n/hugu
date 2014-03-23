@@ -438,7 +438,15 @@ function getDataFromVK(url, callback){
 	$.ajax({
    		url: url,
    		dataType: "jsonp",   		
-   		success: callback
+   		success: function(response) { 
+   			if(response.error && response.error.error_code == 5) {
+   				clearDataInLocalStorage();
+   				doAuth();
+   			}
+   			else{
+	   			callback(response); 
+	   		}
+   		}
   	});
 }
 
@@ -552,6 +560,13 @@ function isValidDataInLocalStorage(){
 	var tokenExpires = localStorage.getItem('_tokenExpires');
 	var currentDate = (new Date()).valueOf();
 	return (currentDate < tokenExpires);
+}
+
+function clearDataInLocalStorage(){
+	localStorage.setItem('_userId', null);
+	localStorage.setItem('_userAvatar',null);
+	localStorage.setItem('ACCESS_TOKEN', null);
+	localStorage.setItem('_tokenExpires', null);		
 }
 
 function getDataFromLocalStorage(){
