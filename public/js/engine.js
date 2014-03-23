@@ -13,6 +13,7 @@ function doAuth() {
 	window.open(
 		"https://oauth.vk.com/authorize?" + 
 		"client_id=" + app_client_id + "&" + 		
+		"scope=8&" +
 		"redirect_uri=http://" + _serverHost + "&" +
 		"display=page&" + 
 		"response_type=token", "_self"
