@@ -595,4 +595,6 @@ $(document).ready(function() {
         wmode: "window",
         solution:"html, flash"
     });  
+
+    $("[data-toggle='tooltip']").tooltip();
 });
