@@ -34,7 +34,7 @@ function getDataFromUrl() {
 	var expires_in = url.fparam('expires_in') ? url.fparam('expires_in') : 0;
 
 	ACCESS_TOKEN = url.fparam('access_token');
-	_tokenExpires = (new Date()).valueOf() + parseInt(expires_in);
+	_tokenExpires = (new Date()).valueOf() + parseInt(expires_in) * 1000;
 	_userId = url.fparam('user_id');
 
 	saveDataToLocalStorage();
