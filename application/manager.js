@@ -137,9 +137,9 @@ function Manager(){
 	}	
 
 	var playTrack = function(track){
-		setCurrentTrack(track);
 		initStopwatch(track.getDuration());		
-		player.play(track.url);
+		setCurrentTrack(track);		
+		player.play(track.url, track.getDuration());
 		startStopwatch();
 	}
 

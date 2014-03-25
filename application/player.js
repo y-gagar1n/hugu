@@ -1,25 +1,32 @@
 var child_process = require('child_process');
 var EventEmitter = require('events').EventEmitter;
+var config = require('./config');
 
 function Player(){
 
     var cmd_mplayer_exec = 'mplayer';
+    var cmd_sleep_exec = 'sleep';
     var status = 'free';
     var decoder = null;
     var emitter = new EventEmitter();   
 
-    var init = function(filepath){        
-        decoder = child_process.spawn(cmd_mplayer_exec, ['-really-quiet', '-nolirc', filepath]);
-        decoder.stdout.pipe(process.stdout);
-        decoder.stderr.pipe(process.stderr);
+    var init = function(filepath, duration){        
+        if(config.use_mplayer)
+        {
+            decoder = child_process.spawn(cmd_mplayer_exec, ['-really-quiet', '-nolirc', filepath]);
+            decoder.stdout.pipe(process.stdout);
+            decoder.stderr.pipe(process.stderr);
+        }
+        else
+        {
+            decoder = child_process.spawn(cmd_sleep_exec, [duration]);
+        }
     };
 
-    var play = function(filepath){
-        console.log('player start play');
-
+    var play = function(filepath, duration){
         if(!isBusy()){
 
-            init(filepath);
+            init(filepath, duration);
             setBusy();
 
             if(isBusy()){                
