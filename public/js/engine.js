@@ -384,14 +384,17 @@ function getRadioList(){
 		{		
 			url:'http://webcast.emg.fm:55655/europaplus128.mp3',
 			title: 'Europa Plus 128Kbit',
+			artist: 'Радио'
 		},
 		{		
 			url:'http://mp3.nashe.ru/nashe-128.mp3',
 			title: 'Наше радио',
+			artist: 'Радио'
 		},
 		{
 			url: 'http://217.29.51.162:8000/relaxfm-onair-128k.mp3',
 			title: 'Relax FM',
+			artist: 'Радио'
 		}
 	];
 }

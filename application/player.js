@@ -19,11 +19,14 @@ function Player(){
         }
         else
         {
-            decoder = child_process.spawn(cmd_sleep_exec, [duration]);
+            if(duration)
+            {
+                decoder = child_process.spawn(cmd_sleep_exec, [duration]);
 
-            decoder.on('error', function (err) {
-                console.log('spawn error', err);
-            });
+                decoder.on('error', function (err) {
+                    console.log('spawn error', err);
+                });
+            }
         }
     };
 
@@ -37,10 +40,13 @@ function Player(){
                 emit('playstart');                
             }
 
-            decoder.on('exit', function(){                
-                setFree();
-                emit('playend');            
-            });
+            if(decoder)
+            {
+                decoder.on('exit', function(){                
+                    setFree();
+                    emit('playend');            
+                });
+            }
                                         
         }else{
             console.log('player busy, try later');
@@ -53,6 +59,11 @@ function Player(){
             decoder.kill();
             decoder = null;
             setFree();
+        }
+        else
+        {
+            setFree();
+            emit('playend');
         }
 
         console.log('player status: ' + status)     
