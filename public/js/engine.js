@@ -207,8 +207,8 @@ function setHandlers() {
 	        $("#jplayer").jPlayer("play", track.playing_time);
 
 			$('#currentTrack').html(						
-				'<span class="track-playing">' + 				
-				'<img src="' + track.addByUserAvatar + '"style="height: 20px; width: 20px;">&nbsp;' + 	
+				'<span class="track-playing">' + 	
+				(track.addByUserAvatar ? '<img src="' + track.addByUserAvatar + '"style="height: 20px; width: 20px;">&nbsp;' : '') +
 				track.artist + ' - ' + 
 				track.title + ' - ' +
 				formatDuration(track.duration) + 

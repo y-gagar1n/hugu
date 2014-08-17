@@ -8,7 +8,7 @@ function Store(){
 	var search_track = db.prepare("SELECT * FROM songs WHERE artist = ? and title = ?");
 	var add_vote = db.prepare("INSERT INTO votes(song_id, author, positive) VALUES(?, ?, ?)")
 	var select_likes = db.prepare("SELECT * FROM votes WHERE song_id = ?");
-	//var remove_vote = db.prepare("INSERT INTO votes(song_id, author, positive) VALUES(?, ?, ?)")
+	var select_random = "SELECT * FROM songs ORDER BY RANDOM() LIMIT 1;";
 
 	var add_track = function(track)
 	{
@@ -27,6 +27,14 @@ function Store(){
 		});				
 	}
 
+	var get_random = function(callback)
+	{
+		db.get(select_random, function(error, db_track) 
+		{
+			callback(db_track);
+		})
+	}
+
 	var add_like = function(author_id, track, callback)
 	{
 		get_track(track, function(error, db_track)
@@ -36,15 +44,6 @@ function Store(){
 			if(callback) callback();
 		});				
 	}
-
-	// var add_dislike = function(author_id, track)
-	// {
-	// 	db.get(search_track, track.artist, track.title, function(error, db_track)
-	// 	{
-	// 		if(db_track)
-	// 			add_vote.run(db_track.id, author_id, false);
-	// 	});
-	// }
 
 	var get_likes = function(track, callback)
 	{
@@ -59,20 +58,11 @@ function Store(){
 		});
 	}
 
-	// var remove_like = function(author_id, track)
-	// {
-
-	// }
-
-	// var remove_dislike = function(author_id, track)
-	// {
-		
-	// }
-
 	return {
 		add_track : add_track,
 		add_like : add_like,
-		get_likes : get_likes
+		get_likes : get_likes,
+		get_random : get_random
 	}
 }
 

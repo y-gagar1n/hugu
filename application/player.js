@@ -20,6 +20,10 @@ function Player(){
         else
         {
             decoder = child_process.spawn(cmd_sleep_exec, [duration]);
+
+            decoder.on('error', function (err) {
+                console.log('spawn error', err);
+            });
         }
     };
 

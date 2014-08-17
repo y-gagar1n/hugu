@@ -124,6 +124,14 @@ function Manager(){
 		return track;
 	}
 
+	var getRandomTrack = function(callback){
+		var track = store.get_random(function(db_track){
+			var track = new Track(db_track);			
+			//emit('updatePlaylist', getPlaylist());
+			callback(track);
+		});		
+	}
+
 	var getPlaylist = function(){
 		return playlist;
 	}
@@ -154,7 +162,9 @@ function Manager(){
 		if(track){
 			playTrack(track);
 		}else{
-			setCurrentTrack(null);
+			track = getRandomTrack(function(track) {
+				playTrack(track);				
+			});			
 		}
 	}
 
