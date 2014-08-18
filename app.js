@@ -33,7 +33,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.get('/', function(request, response){    
-    response.render('index', {client_id: app.get('client_id')});
+    response.render('index', {client_id: app.get('client_id'), mode:"flash,html"});
+ });
+
+app.get('/flash', function(request, response) {
+   response.render('index', {client_id: app.get('client_id'), mode:"flash,html"});
 });
 
 app.listen(app.get('port_http'), function() {
