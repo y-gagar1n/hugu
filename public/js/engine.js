@@ -395,7 +395,13 @@ function getRadioList(){
 			url: 'http://217.29.51.162:8000/relaxfm-onair-128k.mp3',
 			title: 'Relax FM',
 			artist: 'Радио'
-		}
+		},
+		{
+			url: 'http://hit.fmtuner.ru/stream.mp3',
+			title: 'Хит FM',
+			artist: 'Радио'
+		},
+
 	];
 }
 
