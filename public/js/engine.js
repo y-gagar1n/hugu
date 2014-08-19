@@ -236,6 +236,30 @@ function setHandlers() {
 		$('#volumeSlider').children('a').css({left: value + '%'});	
 	});
 
+	_socket.on('searchAndPlay',function(value){
+		var query = value.title + ' ' + value.artist;
+		var url = prepareUrlString({
+			method: 'audio.search',
+			params: { 
+				q:query	
+			}
+		});
+
+		var queryData = {
+			title: value.title,
+			artist: value.artist,
+			duration: value.duration
+		}
+		getDataFromVK(url, 
+			function(result) { 
+				var success = takeFirstAndPlay(queryData, result);
+				if(!success)
+				{
+					_socket.emit('skip');
+				}
+			});		
+	});	
+
 
 	$('#btn-stop').click(function() {
 		$("#countdown").stopTime();
@@ -481,6 +505,23 @@ function callbackShowUserInfo(result){
 	var user = result.response[0];
 	_userAvatar = user.photo_50;
 	$('#signed_in').html('Login as ' + user.last_name + ' ' + user.first_name);
+}
+
+function takeFirstAndPlay(queryData, result){
+	var response = result.response;
+	response.shift();
+	for(var key in response)
+	{
+		var item = response[key];
+		if(queryData.title == item.title 
+			&& queryData.artist == item.artist 
+			&& queryData.duration == item.duration)
+		{
+			sendToQueueTrack(item);
+			return true;
+		}
+	}
+	return false;
 }
 
 

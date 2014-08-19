@@ -151,6 +151,15 @@ function Manager(){
 		startStopwatch();
 	}
 
+	var playRandomTrack = function(track) {
+		var queryData = {
+			title: track.title,
+			artist: track.artist,
+			duration: track.getDuration()
+		};
+		emit('searchAndPlay', queryData);
+	}
+
 	var play = function(){
 		setOptionPlayNext(true);
 		checkPlayerAndPlayNext();
@@ -163,7 +172,7 @@ function Manager(){
 			playTrack(track);
 		}else{
 			track = getRandomTrack(function(track) {
-				playTrack(track);				
+				playRandomTrack(track);				
 			});			
 		}
 	}

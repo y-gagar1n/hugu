@@ -74,6 +74,10 @@ manager.on('currentTrack', function(){
     pool.emitSocket('currentTrack', manager.getCurrentTrack());
 });
 
+manager.on('searchAndPlay', function(query){
+    pool.emitSocket('searchAndPlay', query);
+});
+
 manager.on('like', function(likes){
     pool.emitSocket('like', likes);
 });
