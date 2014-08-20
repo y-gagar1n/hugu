@@ -602,7 +602,7 @@ $(document).ready(function() {
         swfPath: "/components/jplayer/",
         supplied: "mp3",
         wmode: "window",
-        solution:"html, flash"
+        solution:app_mode
     });  
 
     $("[data-toggle='tooltip']").tooltip();

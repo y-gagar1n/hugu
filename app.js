@@ -37,8 +37,14 @@ app.get('/', function(request, response){
  });
 
 app.get('/flash', function(request, response) {
-   response.render('index', {client_id: app.get('client_id'), mode:"flash,html"});
+   response.render('index', {client_id: app.get('client_id'), mode:"flash"});
 });
+
+
+app.get('/html', function(request, response) {
+   response.render('index', {client_id: app.get('client_id'), mode:"html"});
+});
+
 
 app.listen(app.get('port_http'), function() {
     console.log('Express server listening on port ' + app.get('port_http'));
