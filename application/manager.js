@@ -15,8 +15,13 @@ function Manager(){
 	var emitter = new EventEmitter();
 	var store = new Store();
 	var stopwatch = null;
+	var vk = null;
 
 	var optionPlayNext = true;
+
+	var setVk = function(_vk){
+		vk = _vk;
+	}
 
 	var initStopwatch = function(duration){
 		duration = (duration) ? duration : '0';		
@@ -127,6 +132,7 @@ function Manager(){
 	var getRandomTrack = function(callback){
 		var track = store.get_random(function(db_track){
 			var track = new Track(db_track);			
+
 			//emit('updatePlaylist', getPlaylist());
 			callback(track);
 		});		
@@ -172,7 +178,28 @@ function Manager(){
 			playTrack(track);
 		}else{
 			track = getRandomTrack(function(track) {
-				playRandomTrack(track);				
+				var query = track.artist + ' ' + track.title;
+				var requestName = new Date().getTime().toString();
+				vk.request('audio.search', {q: encodeURIComponent(query)}, requestName);
+				vk.on(requestName, function(result){
+
+					var response = result.response;
+					response.shift();
+					var found = false;
+					for(var key in response)
+					{
+						var item = response[key];
+						if(item.title == track.title 
+							&& item.artist == track.artist 
+							&& item.duration == track.duration)
+						{
+							playTrack(new Track(item));
+							found = true;
+							break;
+						}						
+					}	
+					if(!found) playNext();	
+				});								
 			});			
 		}
 	}
@@ -230,6 +257,7 @@ function Manager(){
 		skip: skip,
 		on: on,
 		emit: emit,
+		setVk: setVk
 	}
 }
 

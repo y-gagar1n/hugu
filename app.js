@@ -8,7 +8,6 @@ var express = require('express'),
     Manager = require('./application/manager'),
     Store = require('./application/store');
 
-
 var app = express();
 
 var pool = new Pool();
