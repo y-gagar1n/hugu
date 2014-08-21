@@ -66,6 +66,7 @@ function Client(object){
     var setOnAuthHandler = function(){
         socket.on('auth', function(user){           
             vk.setToken({token: user.token});
+            manager.setVk(vk);
             vk.request('users.get', {});
             onVKRequestUsersGetCallback(user);
         });

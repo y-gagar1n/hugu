@@ -8,7 +8,6 @@ var express = require('express'),
     Manager = require('./application/manager'),
     Store = require('./application/store');
 
-
 var app = express();
 
 var pool = new Pool();
@@ -78,6 +77,10 @@ manager.on('updatePlaylist', function(){
 
 manager.on('currentTrack', function(){
     pool.emitSocket('currentTrack', manager.getCurrentTrack());
+});
+
+manager.on('searchAndPlay', function(query){
+    pool.emitSocket('searchAndPlay', query);
 });
 
 manager.on('like', function(likes){
