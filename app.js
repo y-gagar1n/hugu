@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.get('/', function(request, response){    
-    response.render('index', {client_id: app.get('client_id'), mode:"flash,html"});
+    response.render('index', {client_id: app.get('client_id'), mode:"html,flash"});
  });
 
 app.get('/flash', function(request, response) {
